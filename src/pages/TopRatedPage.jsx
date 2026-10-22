@@ -1,0 +1,79 @@
+import {useContext, useEffect, useMemo } from "react";
+import MovieCard from "../components/MovieCard";
+import { MovieContext } from "../context/MovieContext";
+import { useMovieSearch } from "../hooks/useMovieSearch";
+
+function TopRatedPage() {
+
+    const { movies } = useContext(MovieContext);
+
+  const filteredMovies = useMovieSearch(movies);
+
+    useEffect(() => {
+    document.title = "Top Rated Movies - FilmFiesta";
+   }, []);
+
+  const topRatedMovies = useMemo(() => {
+  return [...filteredMovies]
+    .filter((movie) => movie.rating >= 8)
+    .sort((a, b) => b.rating - a.rating)
+    .slice(0, 5);
+}, [filteredMovies]);
+
+  return (
+    <main className="min-h-screen bg-[#111827] px-5 py-12">
+
+      <div className="mx-auto max-w-7xl">
+
+        <p className="text-xs font-bold tracking-[3px] text-[#d1b36b]">
+          FILMFiesta
+        </p>
+
+        <h1 className="mt-2 text-3xl font-bold text-white">
+          Top Rated Movies
+        </h1>
+
+        <p className="mt-3 text-gray-400">
+          Discover the highest-rated movies loved by audiences.
+        </p>
+
+        {topRatedMovies.length > 0 ? (
+
+          <div className="mt-10 grid w-full grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+
+            {topRatedMovies.map((movie) => (
+              <MovieCard
+                key={movie.id}
+                movie={movie}
+              />
+            ))}
+
+          </div>
+
+        ) : (
+
+          <div className="mt-10 rounded-2xl bg-[#1f2937] p-10 text-center">
+
+            <p className="text-4xl">
+              🎬
+            </p>
+
+            <h2 className="mt-4 text-xl font-bold text-white">
+              No movies found
+            </h2>
+
+            <p className="mt-2 text-gray-400">
+              Try searching for another movie.
+            </p>
+
+          </div>
+
+        )}
+
+      </div>
+
+    </main>
+  );
+}
+
+export default TopRatedPage;

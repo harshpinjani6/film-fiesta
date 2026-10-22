@@ -1,0 +1,313 @@
+import {
+  useRef,
+  useState,
+  useContext,
+} from "react";
+
+import { NavLink } from "react-router-dom";
+
+import { MovieContext } from "../context/MovieContext";
+
+function Header() {
+  const [showMenu, setShowMenu] = useState(false);
+
+  const searchInputRef = useRef(null);
+  const mobileSearchInputRef = useRef(null);
+
+  const {
+    search,
+    setSearch,
+    darkMode,
+    toggleDarkMode,
+  } = useContext(MovieContext);
+
+  return (
+    <header className="sticky top-0 z-50 bg-[#172033] text-white shadow-lg">
+
+      <nav className="mx-auto max-w-7xl px-5 py-4">
+
+        <div className="flex items-center justify-between">
+
+          {/* Logo */}
+          <NavLink
+            to="/"
+            className="flex items-center gap-2"
+            onClick={() => setShowMenu(false)}
+          >
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#d1b36b] font-bold text-[#172033]">
+              F
+            </div>
+
+            <span className="text-2xl font-bold text-[#d1b36b]">
+              FilmFiesta
+            </span>
+          </NavLink>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:block">
+
+            <ul className="flex items-center gap-8">
+
+              <li>
+                <NavLink
+                  to="/"
+                  className={({ isActive }) =>
+                    `font-semibold transition ${
+                      isActive
+                        ? "text-[#d1b36b]"
+                        : "text-white hover:text-[#d1b36b]"
+                    }`
+                  }
+                >
+                  Home
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/popular"
+                  className={({ isActive }) =>
+                    `font-semibold transition ${
+                      isActive
+                        ? "text-[#d1b36b]"
+                        : "text-white hover:text-[#d1b36b]"
+                    }`
+                  }
+                >
+                  Popular
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/top-rated"
+                  className={({ isActive }) =>
+                    `font-semibold transition ${
+                      isActive
+                        ? "text-[#d1b36b]"
+                        : "text-white hover:text-[#d1b36b]"
+                    }`
+                  }
+                >
+                  Top Rated
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/upcoming"
+                  className={({ isActive }) =>
+                    `font-semibold transition ${
+                      isActive
+                        ? "text-[#d1b36b]"
+                        : "text-white hover:text-[#d1b36b]"
+                    }`
+                  }
+                >
+                  Upcoming
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/favorites"
+                  className={({ isActive }) =>
+                    `font-semibold transition ${
+                      isActive
+                        ? "text-[#d1b36b]"
+                        : "text-white hover:text-[#d1b36b]"
+                    }`
+                  }
+                >
+                  Favorites
+                </NavLink>
+              </li>
+
+            </ul>
+
+          </div>
+
+          {/* Desktop Right */}
+          <div className="hidden items-center gap-3 md:flex">
+
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleDarkMode}
+              aria-label="Toggle dark mode"
+              title={
+                darkMode
+                  ? "Switch to Light Mode"
+                  : "Switch to Dark Mode"
+              }
+              className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-[#b89236] text-lg transition hover:bg-[#d1b36b] hover:text-white"
+            >
+              {darkMode ? "☀️" : "🌙"}
+            </button>
+
+            {/* Search */}
+            <div
+              onClick={() =>
+                searchInputRef.current?.focus()
+              }
+              className="flex h-10 w-56 cursor-text items-center gap-2 rounded-lg border border-slate-500 bg-slate-600/70 px-3"
+            >
+              <span>🔍</span>
+
+              <input
+                ref={searchInputRef}
+                type="text"
+                value={search}
+                onChange={(e) =>
+                  setSearch(e.target.value)
+                }
+                placeholder="Search movies..."
+                className="w-full bg-transparent text-white outline-none placeholder-gray-300"
+              />
+            </div>
+
+          </div>
+
+          {/* Mobile Right */}
+          <div className="flex items-center gap-2 md:hidden">
+
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleDarkMode}
+              aria-label="Toggle dark mode"
+              title={
+                darkMode
+                  ? "Switch to Light Mode"
+                  : "Switch to Dark Mode"
+              }
+              className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-[#b89236]"
+            >
+              {darkMode ? "☀️" : "🌙"}
+            </button>
+
+            {/* Menu */}
+            <button
+              onClick={() =>
+                setShowMenu(!showMenu)
+              }
+              className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-500"
+            >
+              {showMenu ? "✕" : "☰"}
+            </button>
+
+          </div>
+
+        </div>
+
+        {/* Mobile Menu */}
+        {showMenu && (
+
+          <div className="mt-5 border-t border-slate-700 pt-5 md:hidden">
+
+            {/* Mobile Search */}
+            <div
+              onClick={() =>
+                mobileSearchInputRef.current?.focus()
+              }
+              className="mb-5 flex h-11 cursor-text items-center gap-2 rounded-lg border border-slate-500 bg-slate-600/70 px-3"
+            >
+              <span>🔍</span>
+
+              <input
+                ref={mobileSearchInputRef}
+                type="text"
+                value={search}
+                onChange={(e) =>
+                  setSearch(e.target.value)
+                }
+                placeholder="Search movies..."
+                className="w-full bg-transparent text-white outline-none placeholder-gray-300"
+              />
+
+            </div>
+
+            {/* Mobile Navigation */}
+            <ul className="flex flex-col gap-4 text-center">
+
+              <li>
+                <NavLink
+                  to="/"
+                  onClick={() => setShowMenu(false)}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "font-semibold text-[#d1b36b]"
+                      : "text-white hover:text-[#d1b36b]"
+                  }
+                >
+                  Home
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/popular"
+                  onClick={() => setShowMenu(false)}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "font-semibold text-[#d1b36b]"
+                      : "text-white hover:text-[#d1b36b]"
+                  }
+                >
+                  Popular
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/top-rated"
+                  onClick={() => setShowMenu(false)}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "font-semibold text-[#d1b36b]"
+                      : "text-white hover:text-[#d1b36b]"
+                  }
+                >
+                  Top Rated
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/upcoming"
+                  onClick={() => setShowMenu(false)}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "font-semibold text-[#d1b36b]"
+                      : "text-white hover:text-[#d1b36b]"
+                  }
+                >
+                  Upcoming
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/favorites"
+                  onClick={() => setShowMenu(false)}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "font-semibold text-[#d1b36b]"
+                      : "text-white hover:text-[#d1b36b]"
+                  }
+                >
+                  Favorites
+                </NavLink>
+              </li>
+
+            </ul>
+
+          </div>
+
+        )}
+
+      </nav>
+
+    </header>
+  );
+}
+
+export default Header;
